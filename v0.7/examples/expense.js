@@ -59,7 +59,9 @@ class Expense extends React.Component {
     this.state = {
       filteredDataList: this.rows,
       sortBy: 'dbKey',
-      sortDir: null
+      sortDir: null,
+      startDate: '',
+      endDate: ''
     }
 
 
@@ -88,15 +90,69 @@ class Expense extends React.Component {
 	    });
 	  }
 
-	//_headerCell = ({col, ...props}) => {
+	  _onDateChange(dateType, event) {
+	    // console.log("start: " + this.refs.startDate.value)
+	    // console.log("end: " + this.refs.endDate.value)
+	      
+	    console.log("dataType: " + dateType)
+	    console.log("event.target.value: " + event.target.value)
+
+	    let date = event.target.value;
+
+	    if (!date) {
+	      this.setState({
+	        filteredDataList: this.rows,
+	      });
+	    }
+
+	    if (dateType === 'startDate' && this.state.endDate === '') {
+	    	console.log("startDate only: " + date)	
+	    	this.setState({
+	        	startDate: date,
+	      	});   
+	    } else if (dateType === 'endDate' && this.state.startDate === '') {
+	    	console.log("endDate only: " + date)
+	    	this.setState({
+	        	endDate: date,
+	      	});
+	    } else {
+	    	console.log("start: " + this.state.startDate + ", end: " + this.state.endDate)
+	    }
+
+
+
+	
+	    // var filterBy = event.target.value.toString().toLowerCase();
+	    // var size = this.rows.length;
+	    // var filteredList = [];
+	    // for (var index = 0; index < size; index++) {
+	    //   var v = this.rows[index][col];
+	    //   if (v.toString().toLowerCase().indexOf(filterBy) !== -1) {
+	    //     filteredList.push(this.rows[index]);
+	    //   }
+	    // }
+	    // this.setState({
+	    //   filteredDataList: filteredList,
+	    // });
+	  }
+
+	
 	_headerCell(col) {
-		//let { col, ...props } = this.props;
-		console.log("col in headercell: " + col)
-	//_headerCell(col) {		
 		  return (
 			<div>
-				{col}
-				<input style={{width:90+'%'}} onChange={this._onFilterChange.bind(this, col)}/>
+				{col.toUpperCase()}				
+				{col === "date" ? 
+					(
+						<div>
+						Start 
+						<input type="date" style={{width:100+'%'}} onChange={this._onDateChange.bind(this, 'startDate')}/>						
+						End 
+						<input type="date" style={{width:100+'%'}} onChange={this._onDateChange.bind(this, 'endDate')}/>
+						</div>
+					)
+					:	<input style={{width:70+'%'}} onChange={this._onFilterChange.bind(this, col)}/>
+					
+				}
 			</div>
 			)
 		}
@@ -118,13 +174,14 @@ class Expense extends React.Component {
           width={1000}
           height={1000}
           {...this.props}>          
-          <Column            
+          <Column  
+          	header={this._headerCell.bind(this,"dbKey")}          
             cell={<TextCell data={filteredDataList} col="dbKey" />}
             fixed={true}
             width={100}
           />
           <Column
-            header={<Cell>Date</Cell>}
+            header={this._headerCell.bind(this,"date")}
             cell={<TextCell data={filteredDataList} col="date" />}
             fixed={true}
             width={100}

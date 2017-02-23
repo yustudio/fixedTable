@@ -11960,7 +11960,7 @@ module.exports = ReactPropTypesSecret;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -11991,16 +11991,16 @@ var Table = _fixedDataTable2.default.Table,
 
 
 var TextCell = function TextCell(_ref) {
-  var rowIndex = _ref.rowIndex,
-      data = _ref.data,
-      col = _ref.col,
-      props = _objectWithoutProperties(_ref, ['rowIndex', 'data', 'col']);
+	var rowIndex = _ref.rowIndex,
+	    data = _ref.data,
+	    col = _ref.col,
+	    props = _objectWithoutProperties(_ref, ['rowIndex', 'data', 'col']);
 
-  return _react2.default.createElement(
-    Cell,
-    props,
-    data[rowIndex][col]
-  );
+	return _react2.default.createElement(
+		Cell,
+		props,
+		data[rowIndex][col]
+	);
 };
 
 // class HeaderCell extends React.Component {
@@ -12037,112 +12037,156 @@ var TextCell = function TextCell(_ref) {
 
 
 var Expense = function (_React$Component) {
-  _inherits(Expense, _React$Component);
+	_inherits(Expense, _React$Component);
 
-  function Expense(props) {
-    _classCallCheck(this, Expense);
+	function Expense(props) {
+		_classCallCheck(this, Expense);
 
-    var _this = _possibleConstructorReturn(this, (Expense.__proto__ || Object.getPrototypeOf(Expense)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (Expense.__proto__ || Object.getPrototypeOf(Expense)).call(this, props));
 
-    _this.rows = [{ "dbKey": 1, "notes": "note 1", "date": "2017-02-21" }, { "dbKey": 2, "notes": "ntoe 2", "date": "2017-03-22" }, { "dbKey": 3, "notes": "note 3", "date": "2017-05-24" }];
+		_this.rows = [{ "dbKey": 1, "notes": "note 1", "date": "2017-02-21" }, { "dbKey": 2, "notes": "ntoe 2", "date": "2017-03-22" }, { "dbKey": 3, "notes": "note 3", "date": "2017-05-24" }];
 
-    _this.state = {
-      filteredDataList: _this.rows,
-      sortBy: 'dbKey',
-      sortDir: null
-    };
+		_this.state = {
+			filteredDataList: _this.rows,
+			sortBy: 'dbKey',
+			sortDir: null,
+			startDate: '',
+			endDate: ''
+		};
 
-    return _this;
-  }
+		return _this;
+	}
 
-  _createClass(Expense, [{
-    key: '_onFilterChange',
-    value: function _onFilterChange(col, event) {
-      if (!event.target.value) {
-        this.setState({
-          filteredDataList: this.rows
-        });
-      }
-      console.log("value in filter change: " + event.target.value);
-      console.log("col in filter change: " + col);
-      var filterBy = event.target.value.toString().toLowerCase();
-      var size = this.rows.length;
-      var filteredList = [];
-      for (var index = 0; index < size; index++) {
-        var v = this.rows[index][col];
-        if (v.toString().toLowerCase().indexOf(filterBy) !== -1) {
-          filteredList.push(this.rows[index]);
-        }
-      }
-      this.setState({
-        filteredDataList: filteredList
-      });
-    }
+	_createClass(Expense, [{
+		key: '_onFilterChange',
+		value: function _onFilterChange(col, event) {
+			if (!event.target.value) {
+				this.setState({
+					filteredDataList: this.rows
+				});
+			}
+			console.log("value in filter change: " + event.target.value);
+			console.log("col in filter change: " + col);
+			var filterBy = event.target.value.toString().toLowerCase();
+			var size = this.rows.length;
+			var filteredList = [];
+			for (var index = 0; index < size; index++) {
+				var v = this.rows[index][col];
+				if (v.toString().toLowerCase().indexOf(filterBy) !== -1) {
+					filteredList.push(this.rows[index]);
+				}
+			}
+			this.setState({
+				filteredDataList: filteredList
+			});
+		}
+	}, {
+		key: '_onDateChange',
+		value: function _onDateChange(dateType, event) {
+			// console.log("start: " + this.refs.startDate.value)
+			// console.log("end: " + this.refs.endDate.value)
 
-    //_headerCell = ({col, ...props}) => {
+			console.log("dataType: " + dateType);
+			console.log("event.target.value: " + event.target.value);
 
-  }, {
-    key: '_headerCell',
-    value: function _headerCell(col) {
-      //let { col, ...props } = this.props;
-      console.log("col in headercell: " + col);
-      //_headerCell(col) {		
-      return _react2.default.createElement(
-        'div',
-        null,
-        col,
-        _react2.default.createElement('input', { style: { width: 90 + '%' }, onChange: this._onFilterChange.bind(this, col) })
-      );
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var filteredDataList = this.state.filteredDataList;
+			var date = event.target.value;
 
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement('input', {
-          onChange: this._onFilterChange,
-          placeholder: 'Filter by dbKey'
-        }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          Table,
-          _extends({
-            rowHeight: 50,
-            rowsCount: filteredDataList.length,
-            headerHeight: 100,
-            width: 1000,
-            height: 1000
-          }, this.props),
-          _react2.default.createElement(Column, {
-            cell: _react2.default.createElement(TextCell, { data: filteredDataList, col: 'dbKey' }),
-            fixed: true,
-            width: 100
-          }),
-          _react2.default.createElement(Column, {
-            header: _react2.default.createElement(
-              Cell,
-              null,
-              'Date'
-            ),
-            cell: _react2.default.createElement(TextCell, { data: filteredDataList, col: 'date' }),
-            fixed: true,
-            width: 100
-          }),
-          _react2.default.createElement(Column, {
-            header: this._headerCell.bind(this, "notes")
-            //header={<Cell>Notes</Cell>}
-            , cell: _react2.default.createElement(TextCell, { data: filteredDataList, col: 'notes' }),
-            width: 100
-          })
-        )
-      );
-    }
-  }]);
+			if (!date) {
+				this.setState({
+					filteredDataList: this.rows
+				});
+			}
 
-  return Expense;
+			if (dateType === 'startDate' && this.state.endDate === '') {
+				console.log("startDate only: " + date);
+				this.setState({
+					startDate: date
+				});
+			} else if (dateType === 'endDate' && this.state.startDate === '') {
+				console.log("endDate only: " + date);
+				this.setState({
+					endDate: date
+				});
+			} else {
+				console.log("start: " + this.state.startDate + ", end: " + this.state.endDate);
+			}
+
+			// var filterBy = event.target.value.toString().toLowerCase();
+			// var size = this.rows.length;
+			// var filteredList = [];
+			// for (var index = 0; index < size; index++) {
+			//   var v = this.rows[index][col];
+			//   if (v.toString().toLowerCase().indexOf(filterBy) !== -1) {
+			//     filteredList.push(this.rows[index]);
+			//   }
+			// }
+			// this.setState({
+			//   filteredDataList: filteredList,
+			// });
+		}
+	}, {
+		key: '_headerCell',
+		value: function _headerCell(col) {
+			return _react2.default.createElement(
+				'div',
+				null,
+				col.toUpperCase(),
+				col === "date" ? _react2.default.createElement(
+					'div',
+					null,
+					'Start',
+					_react2.default.createElement('input', { type: 'date', style: { width: 100 + '%' }, onChange: this._onDateChange.bind(this, 'startDate') }),
+					'End',
+					_react2.default.createElement('input', { type: 'date', style: { width: 100 + '%' }, onChange: this._onDateChange.bind(this, 'endDate') })
+				) : _react2.default.createElement('input', { style: { width: 70 + '%' }, onChange: this._onFilterChange.bind(this, col) })
+			);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var filteredDataList = this.state.filteredDataList;
+
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement('input', {
+					onChange: this._onFilterChange,
+					placeholder: 'Filter by dbKey'
+				}),
+				_react2.default.createElement('br', null),
+				_react2.default.createElement(
+					Table,
+					_extends({
+						rowHeight: 50,
+						rowsCount: filteredDataList.length,
+						headerHeight: 100,
+						width: 1000,
+						height: 1000
+					}, this.props),
+					_react2.default.createElement(Column, {
+						header: this._headerCell.bind(this, "dbKey"),
+						cell: _react2.default.createElement(TextCell, { data: filteredDataList, col: 'dbKey' }),
+						fixed: true,
+						width: 100
+					}),
+					_react2.default.createElement(Column, {
+						header: this._headerCell.bind(this, "date"),
+						cell: _react2.default.createElement(TextCell, { data: filteredDataList, col: 'date' }),
+						fixed: true,
+						width: 100
+					}),
+					_react2.default.createElement(Column, {
+						header: this._headerCell.bind(this, "notes")
+						//header={<Cell>Notes</Cell>}
+						, cell: _react2.default.createElement(TextCell, { data: filteredDataList, col: 'notes' }),
+						width: 100
+					})
+				)
+			);
+		}
+	}]);
+
+	return Expense;
 }(_react2.default.Component);
 
 //module.exports = FilterExample;
